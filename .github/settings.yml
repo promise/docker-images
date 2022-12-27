@@ -3,4 +3,5 @@ _extends: .github
 repository:
   name: docker-images
   description: "A repository for custom docker images"
+  private: false
   topics: docker, docker-images
