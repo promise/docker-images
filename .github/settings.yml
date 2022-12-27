@@ -1,0 +1,6 @@
+_extends: .github
+
+repository:
+  name: docker-images
+  description: "A repository for custom docker images"
+  topics: docker, docker-images
