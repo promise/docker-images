@@ -16,17 +16,12 @@ jobs:
         with:
           ref: ookla-speedtest
 
-      - name: Delete old config file
-        run: rm -f OoklaServer.properties
-
-      - name: Download OoklaServer archive file
-        run: curl https://install.speedtest.net/ooklaserver/stable/OoklaServer-linux64.tgz -o /tmp/OoklaServer-linux64.tgz
-
-      - name: Extract OoklaServer archive file to temporary directory
-        run: tar -xzf /tmp/OoklaServer-linux64.tgz -C /tmp
-
-      - name: Move OoklaServer config file to repository
-        run: mv /tmp/OoklaServer.properties .
+      - name: Replace config file
+        run: |
+          rm -f OoklaServer.properties
+          curl https://install.speedtest.net/ooklaserver/stable/OoklaServer-linux64.tgz -o /tmp/OoklaServer-linux64.tgz
+          tar -xzf /tmp/OoklaServer-linux64.tgz -C /tmp
+          mv /tmp/OoklaServer.properties .
 
       - name: If there is any change, commit and push, else do nothing
         run: |
