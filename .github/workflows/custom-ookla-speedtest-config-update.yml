@@ -1,0 +1,35 @@
+name: ookla-speedtest / Download default config file
+
+on:
+  schedule:
+    - cron: '0 23 * * 1' # every monday at 23:00 UTC, an hour before the image gets created automatically
+  workflow_dispatch:
+
+jobs:
+  get-and-replace-config:
+    name: Get and replace config
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
+        with:
+          ref: ookla-speedtest
+
+      - name: Delete old config file
+        run: rm -f OoklaServer.properties
+
+      - name: Download OoklaServer archive file
+        run: curl https://install.speedtest.net/ooklaserver/stable/OoklaServer-linux64.tgz -o /tmp/OoklaServer-linux64.tgz
+
+      - name: Extract OoklaServer archive file to temporary directory
+        run: tar -xzf /tmp/OoklaServer-linux64.tgz -C /tmp
+
+      - name: Move OoklaServer config file to repository
+        run: mv /tmp/OoklaServer.properties .
+
+      - name: If there is any change, commit and push, else do nothing
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.comm'
+          git diff --quiet || git commit -am "chore: update config file" && git push
