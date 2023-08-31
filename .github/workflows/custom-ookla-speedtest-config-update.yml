@@ -21,7 +21,7 @@ jobs:
           rm -f OoklaServer.properties
           curl https://install.speedtest.net/ooklaserver/stable/OoklaServer-linux64.tgz -o /tmp/OoklaServer-linux64.tgz
           tar -xzf /tmp/OoklaServer-linux64.tgz -C /tmp
-          mv /tmp/OoklaServer.properties .
+          mv /tmp/OoklaServer.properties.default OoklaServer.properties
 
       - name: If there is any change, commit and push, else do nothing
         run: |
