@@ -20,6 +20,7 @@ jobs:
       - name: Get branch names
         id: get-branch-names
         run: |
+          git fetch --all --prune --tags
           echo "::set-output name=branch-names::$(git branch -r --format='%(refname:short)' | grep -v HEAD | grep -v main | sed 's/origin\///' | jq -R -s -c 'split("\n")[:-1]')"
 
   build-docker-image:
